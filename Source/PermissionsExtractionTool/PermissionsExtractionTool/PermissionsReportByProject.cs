@@ -16,7 +16,7 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
     /// <summary>
     /// The permissions report.
     /// </summary>
-    public class PermissionsReport
+    public class PermissionsReportByProject
     {
         #region Public Properties
 
@@ -36,11 +36,6 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
         /// Gets or sets the Team Project collection url.
         /// </summary>
         public string TfsCollectionUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user name.
-        /// </summary>
-        public string UserName { get; set; }
 
         #endregion
     }

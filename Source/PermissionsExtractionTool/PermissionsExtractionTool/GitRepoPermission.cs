@@ -28,6 +28,11 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
         /// </summary>
         public List<Permission> RepoPermissions { get; set; }
 
+        /// <summary>
+        /// Gets or sets the repository permissions.
+        /// </summary>
+        public List<UserPermissions> RepoPermissionsByUser { get; set; }
+
         #endregion
     }
 }

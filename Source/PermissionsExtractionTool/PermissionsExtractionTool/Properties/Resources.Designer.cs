@@ -77,17 +77,38 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool.Properties {
         ///    &lt;head&gt;
         ///      &lt;title&gt;TFS Permissions Report&lt;/title&gt;
         ///      &lt;style type=&quot;text/css&quot;&gt;
-        ///        body{ text-align: left; width: 100%;  font-family: Calibri, sans-serif; }
+        ///        body{ text-align: left; width: 95%;  font-family: Calibri, sans-serif; }
         ///
-        ///        table{ border: none;  border-collapse: separate;  width: 100%; }
+        ///        table{ margin-left:60px; border: none;  border-collapse: separate;  width: 90%; }
         ///
         ///        tr.title td{ background: white;font-size: 26px;  font-weight: bold; }
         ///
-        ///        th{ background [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ALMRangers_SampleXslt {
             get {
                 return ResourceManager.GetString("ALMRangers_SampleXslt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; &gt;
+        ///  &lt;xsl:output method=&quot;html&quot;  encoding=&quot;utf-16&quot;/&gt;
+        ///  &lt;xsl:template match=&quot;/&quot;&gt;
+        ///    &lt;head&gt;
+        ///      &lt;title&gt;TFS Permissions Report&lt;/title&gt;
+        ///      &lt;style type=&quot;text/css&quot;&gt;
+        ///        body{ text-align: left; width: 95%;  font-family: Calibri, sans-serif; }
+        ///
+        ///        table{ margin-left:60px; border: none;  border-collapse: separate;  width: 90%; }
+        ///
+        ///        tr.title td{ background: white;font-size: 26px;  font-weight: bold; }
+        ///
+        ///       [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ALMRangers_SampleXslt2 {
+            get {
+                return ResourceManager.GetString("ALMRangers_SampleXslt2", resourceCulture);
             }
         }
     }

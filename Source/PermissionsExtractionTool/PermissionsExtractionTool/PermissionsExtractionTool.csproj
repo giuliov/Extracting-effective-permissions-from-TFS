@@ -89,7 +89,10 @@
     <Compile Include="Options.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="PermissionScope.cs" />
-    <Compile Include="PermissionsReport.cs" />
+    <Compile Include="PermissionsReportByProject.cs" />
+    <Compile Include="PermissionsReportByUser.cs" />
+    <Compile Include="PivotByProject.cs" />
+    <Compile Include="PivotByUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectLevelPermissions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -100,6 +103,7 @@
     </Compile>
     <Compile Include="TfsTeamProject.cs" />
     <Compile Include="TfvcVersionControlPermissions.cs" />
+    <Compile Include="UserPermissions.cs" />
     <Compile Include="XmlTransformation\XmlTransformationManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +117,11 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="XslTemplates\ALMRangers.SampleXslt2.xsl" />
     <Content Include="XslTemplates\ALMRangers.SampleXslt.xsl" />
     <Content Include="SampleReport\SamplePermissionReport.xml" />
     <Content Include="XslTemplates\ALMRangers_Logo.png" />
