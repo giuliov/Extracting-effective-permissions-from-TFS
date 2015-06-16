@@ -14,7 +14,7 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
     /// <summary>
     /// The version control permissions.
     /// </summary>
-    public class VersionControlPermissions
+    public class TfvcVersionControlPermissions
     {
         #region Public Properties
 

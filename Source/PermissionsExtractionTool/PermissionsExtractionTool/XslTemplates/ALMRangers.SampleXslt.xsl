@@ -14,7 +14,7 @@
         tr{ background: #eeeeee}
         td, th{
         font-family:'Segoe UI'; font-weight:lighter;
-        font-size: 12pt;  padding: 10px;  border: none; }
+        font-size: 12pt;  padding: 2px;  border: none; }
         h1 {
         margin-top:10px;
         font-size:xx-large;
@@ -26,7 +26,7 @@
 
         }
         span.tab{
-        padding: 0 80px; /* Or desired space*/
+        padding: 0 10px; /* Or desired space*/
         }
         tr.info td{}
         tr.warning td{background-color:yellow;color:black}
@@ -181,45 +181,56 @@
 
               <tr>
 
-                <td >Version Control Permissions</td>
-                <td>
-                  <table>
-                    <xsl:for-each select="VersionControlPermissions/VersionControlPermissionsList/Permission">
+                  <td >Version Control Permissions</td>
+                  <td>
+                      <table>
+                          <xsl:for-each select="VersionControlPermissions/VersionControlPermissionsList/Permission">
 
-                      <tr>
-                        <td>
-                          <xsl:value-of select="DisplayName"/>
-                        </td>
-                        <td>
-                          <xsl:value-of select="Value"/>
-                          <span class="tab">
-                            <xsl:value-of select="GroupMemberInheritance"/>
-                          </span>
-                        </td>
-                      </tr>
-                    </xsl:for-each>
-                  </table>
-                </td>
+                              <tr>
+                                  <td>
+                                      <xsl:value-of select="DisplayName"/>
+                                  </td>
+                                  <td>
+                                      <xsl:value-of select="Value"/>
+                                      <span class="tab">
+                                          <xsl:value-of select="GroupMemberInheritance"/>
+                                      </span>
+                                  </td>
+                              </tr>
+                          </xsl:for-each>
+                      </table>
+                  </td>
               </tr>
               <!-- Git Version Control Permissions-->
               <tr>
                 <td >Git Version Control Permissions</td>
                 <td>
-                  <table>
-                    <xsl:for-each select="GitVersionControlPermissions/VersionControlPermissionsList/Permission">
-                      <tr>
-                        <td>
-                          <xsl:value-of select="DisplayName"/>
-                        </td>
-                        <td>
-                          <xsl:value-of select="Value"/>
-                          <span class="tab">
-                            <xsl:value-of select="GroupMemberInheritance"/>
-                          </span>
-                        </td>
-                      </tr>
-                    </xsl:for-each>
-                  </table>
+                    <table>
+                        <xsl:for-each select="GitVersionControlPermissions/VersionControlPermissionsList/GitRepoPermission">
+                        <tr>
+                            <td>
+                                <b><i><xsl:value-of select="RepoName"/></i></b>
+                            </td>
+                            <td>
+                                <table>
+                                    <xsl:for-each select="RepoPermissions/Permission">
+                                    <tr>
+                                        <td>
+                                            <xsl:value-of select="DisplayName"/>
+                                        </td>
+                                        <td>
+                                            <xsl:value-of select="Value"/>
+                                            <span class="tab">
+                                                <xsl:value-of select="GroupMemberInheritance"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </xsl:for-each>
+                                </table>
+                            </td>
+                        </tr>
+                        </xsl:for-each>
+                    </table>
                 </td>
               </tr>
 

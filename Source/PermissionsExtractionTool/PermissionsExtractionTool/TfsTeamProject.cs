@@ -49,14 +49,14 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
         /// <summary>
         /// Gets or sets the version control permissions.
         /// </summary>
-        [XmlElement(ElementName = "VersionControlPermissions")]
-        public VersionControlPermissions VersionControlPermissions { get; set; }
+        [XmlElement(ElementName = "TfvcVersionControlPermissions")]
+        public TfvcVersionControlPermissions TfvcVersionControlPermissions { get; set; }
 
         /// <summary>
         /// Gets or sets the version control permissions.
         /// </summary>
         [XmlElement(ElementName = "GitVersionControlPermissions")]
-        public VersionControlPermissions GitVersionControlPermissions { get; set; }
+        public GitVersionControlPermissions GitVersionControlPermissions { get; set; }
 
         /// <summary>
         /// Gets or sets the work items permissions.

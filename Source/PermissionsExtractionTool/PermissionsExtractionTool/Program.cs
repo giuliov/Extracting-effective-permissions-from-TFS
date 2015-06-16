@@ -201,17 +201,17 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
                                     =
                                     projectLevelPermissions
                             },
-                        GitVersionControlPermissions = new VersionControlPermissions
+                        GitVersionControlPermissions = new GitVersionControlPermissions
                         {
                             VersionControlPermissionsList = gitVersionControlPermissions
                         },
-                        VersionControlPermissions = new VersionControlPermissions
+                        TfvcVersionControlPermissions = new TfvcVersionControlPermissions
                         {
                             VersionControlPermissionsList = versionControlPermissions
                         }
                     };
 
-                    tfsTeamProject.VersionControlPermissions.VersionControlPermissionsList.AddRange(versionControlPermissions);
+                    //tfsTeamProject.VersionControlPermissions.VersionControlPermissionsList.AddRange(versionControlPermissions);
                     permissionsReport.TeamProjects.Add(tfsTeamProject);
                 }
 
@@ -492,24 +492,33 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
         /// <param name="vcs">The VCS.</param>
         /// <param name="gitService">The git service.</param>
         /// <returns>List of Permissions</returns>
-        private static List<Permission> ExtractGitVersionControlPermissions(ISecurityService server, IEnumerable<string> groups, TeamFoundationIdentity userIdentity, string projectSecurityToken, IIdentityManagementService identityManagementService, VersionControlServer vcs, TeamFoundation.Git.Client.GitRepositoryService gitService)
+        private static List<GitRepoPermission> ExtractGitVersionControlPermissions(ISecurityService server, IEnumerable<string> groups, TeamFoundationIdentity userIdentity, string projectSecurityToken, IIdentityManagementService identityManagementService, VersionControlServer vcs, TeamFoundation.Git.Client.GitRepositoryService gitService)
         {
             Console.WriteLine("== Extract Git Version Control Permissions ==");
             SecurityNamespace gitVersionControlSecurityNamespace = server.GetSecurityNamespace(Helpers.GetSecurityNamespaceId(PermissionScope.GitSourceControl, server));
             var gitProjectRepoService = gitService.QueryRepositories(projectSecurityToken);
             
-            // This sample handle only the default repository, you can iterate through all repositories same way
-            var defaultGitRepo = gitProjectRepoService.SingleOrDefault(gr => gr.Name.Equals(projectSecurityToken));
-
             vcs.TryGetTeamProject(projectSecurityToken);
-            if (defaultGitRepo == null)
+
+            var result = new List<GitRepoPermission>();
+            foreach (var repo in gitProjectRepoService)
             {
-                return new List<Permission>();
+                var gitVersionControlPermissions = ExtractGitRepoPermissions(groups, userIdentity, identityManagementService, gitVersionControlSecurityNamespace, repo);
+                var perms = new GitRepoPermission() {
+                    RepoName = repo.Name,
+                    RepoPermissions = Helpers.RemoveDuplicatePermissionsAndCombineGroups(gitVersionControlPermissions)
+                };
+                result.Add(perms);
             }
 
+            return result;
+        }
+
+        private static List<Permission> ExtractGitRepoPermissions(IEnumerable<string> groups, TeamFoundationIdentity userIdentity, IIdentityManagementService identityManagementService, SecurityNamespace gitVersionControlSecurityNamespace, TeamFoundation.SourceControl.WebApi.GitRepository defaultGitRepo)
+        {
             // Repository Security Token is repoV2/TeamProjectId/RepositoryId
             var repoIdToken = string.Format("repoV2{0}{1}{2}{3}", gitVersionControlSecurityNamespace.Description.SeparatorValue, defaultGitRepo.ProjectReference.Id, gitVersionControlSecurityNamespace.Description.SeparatorValue, defaultGitRepo.Id);
-            
+
             // vcs.GetTeamProject(projectSecurityToken);
             AccessControlList versionControlAccessList =
                 gitVersionControlSecurityNamespace.QueryAccessControlList(
@@ -584,9 +593,7 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
                     }
                 }
             }
-
-            var modifiedPermissions = Helpers.RemoveDuplicatePermissionsAndCombineGroups(gitVersionControlPermissions);
-            return modifiedPermissions;
+            return gitVersionControlPermissions;
         }
 
         /// <summary>

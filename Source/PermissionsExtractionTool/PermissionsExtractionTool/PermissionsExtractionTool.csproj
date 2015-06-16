@@ -29,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>ALMRangersRuleSet.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -79,8 +80,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GitRepoPermission.cs" />
     <Compile Include="AreaPermission.cs" />
     <Compile Include="EnumrationsList.cs" />
+    <Compile Include="GitVersionControlPermissions.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="IterationPermission.cs" />
     <Compile Include="Options.cs" />
@@ -96,7 +99,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="TfsTeamProject.cs" />
-    <Compile Include="VersionControlPermissions.cs" />
+    <Compile Include="TfvcVersionControlPermissions.cs" />
     <Compile Include="XmlTransformation\XmlTransformationManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -118,13 +121,6 @@
     <Content Include="XslTemplates\ALMRangers_Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
