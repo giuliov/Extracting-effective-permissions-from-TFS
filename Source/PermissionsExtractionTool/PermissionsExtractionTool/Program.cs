@@ -73,6 +73,12 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
                 Fail();
                 return -1;
             }
+            // ad-hoc check as 1.9 has no decent command management
+            if (!options.ByUser && !options.ByProject)
+            {
+                Fail();
+                return -1;
+            }
 
             TfsTeamProjectCollection tfs =
                 TfsTeamProjectCollectionFactory.GetTeamProjectCollection(new Uri(options.Collection));
@@ -89,13 +95,19 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
             bool someExtractionFail = false;
 
             PivotAlgorithm report = null;
-            //report = new PivotByUser();
-            report = new PivotByProject();
+            if (options.ByUser)
+            {
+                report = new PivotByUser();
+            }
+            if (options.ByProject)
+            {
+                report = new PivotByProject();
+            }
             someExtractionFail = report.Run(options, tfs);
 
             if (someExtractionFail)
             {
-                Fail("An error occured during the extraction");
+                Fail("An error occurred during the extraction");
                 return -1;
             }
 

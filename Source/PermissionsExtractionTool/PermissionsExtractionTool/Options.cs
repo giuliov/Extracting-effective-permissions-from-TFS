@@ -17,6 +17,11 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
     /// </summary>
     internal class Options
     {
+        [Option("byProject", DefaultValue = false, HelpText = "Analyze by Team Project")]
+        public bool ByProject { get; set; }
+        [Option("byUser", DefaultValue = false, HelpText = "Analyze by User")]
+        public bool ByUser { get; set; }
+
         /// <summary>
         /// Gets or sets user list for permission extraction.
         /// </summary>
