@@ -125,6 +125,7 @@
     <Content Include="XslTemplates\ALMRangers.SampleXslt.xsl" />
     <Content Include="SampleReport\SamplePermissionReport.xml" />
     <Content Include="XslTemplates\ALMRangers_Logo.png" />
+    <Content Include="XslTemplates\ExcelExport.xsl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
