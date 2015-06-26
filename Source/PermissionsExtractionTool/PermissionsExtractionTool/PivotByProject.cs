@@ -28,7 +28,7 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
     /// The program.
     /// </summary>
     internal class PivotByProject : PivotAlgorithm
-    {       
+    {
         /// <summary>
         /// Sends a failure message of the ERROR output and wait for a press on the enter key.
         /// </summary>
@@ -92,7 +92,7 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
 
 
                     string collectionName = workItemStore.TeamProjectCollection.Name.Split('\\')[1];
-                    var allProjectUsers = GetProjectAllUsers(collectionName, teamProject.Name, ims);
+                    var allProjectUsers = GetProjectAllUsers(collectionName, teamProject.Name, options.Users, ims);
 
                     Console.WriteLine("== Extract Git Version Control Permissions ==");
                     var x = new List<GitRepoPermission>();
@@ -202,14 +202,14 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
             }
         }
 
-        private List<TeamFoundationIdentity> GetProjectAllUsers(string c, string p, IIdentityManagementService identityManagementService)
+        private List<TeamFoundationIdentity> GetProjectAllUsers(string collectionName, string projectName, string[] usersToSkip, IIdentityManagementService identityManagementService)
         {
             var queue = new Queue<TeamFoundationIdentity>();
             var flatUserList = new Dictionary<Guid, TeamFoundationIdentity>();
 
-            TeamFoundationIdentity allProjectUsers = identityManagementService.ReadIdentity(IdentitySearchFactor.General, string.Format("[{0}]\\Project Valid Users", p), MembershipQuery.Expanded, ReadIdentityOptions.IncludeReadFromSource);
+            TeamFoundationIdentity allProjectUsers = identityManagementService.ReadIdentity(IdentitySearchFactor.General, string.Format("[{0}]\\Project Valid Users", projectName), MembershipQuery.Expanded, ReadIdentityOptions.IncludeReadFromSource);
             queue.Enqueue(allProjectUsers);
-            TeamFoundationIdentity collectionAdmins = identityManagementService.ReadIdentity(IdentitySearchFactor.General, string.Format("[{0}]\\Project Collection Administrators", c), MembershipQuery.Expanded, ReadIdentityOptions.IncludeReadFromSource);
+            TeamFoundationIdentity collectionAdmins = identityManagementService.ReadIdentity(IdentitySearchFactor.General, string.Format("[{0}]\\Project Collection Administrators", collectionName), MembershipQuery.Expanded, ReadIdentityOptions.IncludeReadFromSource);
             queue.Enqueue(collectionAdmins);
             TeamFoundationIdentity serverAdmins = identityManagementService.ReadIdentity(IdentitySearchFactor.General, "[TEAM FOUNDATION]\\Team Foundation Administrators", MembershipQuery.Expanded, ReadIdentityOptions.IncludeReadFromSource);
             queue.Enqueue(serverAdmins);
@@ -230,7 +230,8 @@ namespace Microsoft.ALMRangers.PermissionsExtractionTool
                 }
                 else
                 {
-                    if (!flatUserList.ContainsKey(cur.TeamFoundationId))
+                    if (!flatUserList.ContainsKey(cur.TeamFoundationId)
+                        && !usersToSkip.Contains(cur.UniqueName, StringComparer.InvariantCultureIgnoreCase))
                     {
                         System.Diagnostics.Debug.WriteLine("Adding {0}", cur.DisplayName, 0);
                         flatUserList.Add(cur.TeamFoundationId, cur);
